@@ -13,9 +13,13 @@ class MyApp extends StatelessWidget {
 //    final wordPair = WordPair.random();
     return MaterialApp(
       title: 'Welcome to Flutter',
+      theme: new ThemeData(
+        primaryColor: Colors.white
+      ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Welcome to Flutter'),
+          title: new Text('Welcome to Flutter!'),
+          centerTitle: true,
         ),
         body: Center(
 //          child: Text('Hello World'),
@@ -34,13 +38,49 @@ class RandomWordsState extends State<RandomWords> {
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
+  // 添加第二个路由
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map(
+            (pair) {
+              return new ListTile(
+                title: new Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final divided = ListTile.divideTiles(
+            tiles: tiles,
+            context: context,
+          ).toList();
+
+          return new Scaffold(
+            appBar: new AppBar(
+              title: new Text('PageTwo Saved Suggestions'),
+              centerTitle: true,
+            ),
+            body: new ListView(children: divided),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 //    final wordPair = WordPair.random();
 //    return Text(wordPair.asPascalCase);
     return Scaffold(
       appBar: AppBar(
-        title: Text('ListView'),
+        title: Text('PageOne WordsList'),
+        centerTitle: true,
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved)
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -75,12 +115,11 @@ class RandomWordsState extends State<RandomWords> {
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
       ),
-      onTap: (){
+      onTap: () {
         setState(() {
           if (alreadySaved) {
             _saved.remove(pair);
-          }
-          else{
+          } else {
             _saved.add(pair);
           }
         });
