@@ -5,7 +5,75 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(SampleAppp());
+
+class SampleAppp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        title: 'Sample App',
+        theme: new ThemeData(primaryColor: Colors.blue),
+        home: new SampleAppPage());
+  }
+}
+
+class SampleAppPage extends StatefulWidget {
+  SampleAppPage({Key key}) : super(key: key);
+
+  _SampleAppPageState createState() => new _SampleAppPageState();
+}
+
+class _SampleAppPageState extends State<SampleAppPage> {
+  bool toggle = true;
+
+  void _toggle(){
+    setState(() {
+      toggle = !toggle;
+    });
+  }
+
+  _getToggleChild(){
+    if(toggle) {
+      return new Text('Toggle One');
+    }
+    else {
+      return new Text('Toggle Two');
+    }
+  }
+
+//  new MaterialButton(
+//  onPressed: () {},
+//  child: new Text(textToShow),
+//  padding: new EdgeInsets.only(left: 20.0, right: 20.0),
+//  ),
+
+
+  String textToShow = "Flutter One";
+
+  void _updateText() {
+    setState(() {
+      textToShow = "Flutter Project";
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Sample App"),
+      ),
+      body: new Center(
+        child: _getToggleChild(),
+      ),
+      floatingActionButton: new FloatingActionButton(
+//        onPressed: _updateText,
+        onPressed: _toggle,
+        tooltip: 'Update Text',
+        child: new Icon(Icons.update),
+      ),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,9 +81,7 @@ class MyApp extends StatelessWidget {
 //    final wordPair = WordPair.random();
     return MaterialApp(
       title: 'Welcome to Flutter',
-      theme: new ThemeData(
-        primaryColor: Colors.white
-      ),
+      theme: new ThemeData(primaryColor: Colors.white),
       home: Scaffold(
         appBar: AppBar(
           title: new Text('Welcome to Flutter!'),
